@@ -1,0 +1,41 @@
+CREATE TABLE "accounts" (
+  "id" bigserial PRIMARY KEY,
+  "owner" varchar,
+  "balance" bigint,
+  "currency" varchar,
+  "created_at" timestamptz DEFAULT (now()),
+  "country_code" int
+);
+
+CREATE TABLE "enteries" (
+  "id" bigserial PRIMARY KEY,
+  "account_id" bigint,
+  "ammount" bigint,
+  "created_at" timestamptz DEFAULT (now())
+);
+
+CREATE TABLE "transfers" (
+  "id" bigserial PRIMARY KEY,
+  "from_account_id" bigint NOT NULL,
+  "to_account_id" bigint NOT NULL,
+  "amount" bigint NOT NULL,
+  "created_at" timestamptz NOT NULL DEFAULT (now())
+);
+
+CREATE INDEX ON "accounts" ("owner");
+
+CREATE INDEX ON "enteries" ("account_id");
+
+CREATE INDEX ON "transfers" ("from_account_id");
+
+CREATE INDEX ON "transfers" ("to_account_id");
+
+CREATE INDEX ON "transfers" ("from_account_id", "to_account_id");
+
+COMMENT ON COLUMN "transfers"."amount" IS 'must be positive';
+
+ALTER TABLE "enteries" ADD FOREIGN KEY ("account_id") REFERENCES "accounts" ("id");
+
+ALTER TABLE "transfers" ADD FOREIGN KEY ("from_account_id") REFERENCES "accounts" ("id");
+
+ALTER TABLE "transfers" ADD FOREIGN KEY ("to_account_id") REFERENCES "accounts" ("id");
