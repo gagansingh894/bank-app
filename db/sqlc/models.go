@@ -10,12 +10,11 @@ import (
 )
 
 type Account struct {
-	ID          int64          `json:"id"`
-	Owner       sql.NullString `json:"owner"`
-	Balance     sql.NullInt64  `json:"balance"`
-	Currency    sql.NullString `json:"currency"`
-	CreatedAt   sql.NullTime   `json:"created_at"`
-	CountryCode sql.NullInt32  `json:"country_code"`
+	ID        int64          `json:"id"`
+	Owner     sql.NullString `json:"owner"`
+	Balance   sql.NullInt64  `json:"balance"`
+	Currency  sql.NullString `json:"currency"`
+	CreatedAt sql.NullTime   `json:"created_at"`
 }
 
 type Entery struct {
