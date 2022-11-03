@@ -17,10 +17,10 @@ type Account struct {
 	CreatedAt sql.NullTime   `json:"created_at"`
 }
 
-type Entery struct {
+type Entry struct {
 	ID        int64         `json:"id"`
 	AccountID sql.NullInt64 `json:"account_id"`
-	Ammount   sql.NullInt64 `json:"ammount"`
+	Amount    sql.NullInt64 `json:"amount"`
 	CreatedAt sql.NullTime  `json:"created_at"`
 }
 
