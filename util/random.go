@@ -1,7 +1,6 @@
 package util
 
 import (
-	"database/sql"
 	"math/rand"
 	"strings"
 	"time"
@@ -30,30 +29,12 @@ func randomString(n int) string {
 	return sb.String()
 }
 
-func RandomSQLNullString() sql.NullString {
-	return sql.NullString{
-		String: randomString(rand.Intn(10)),
-		Valid:  true,
-	}
+func RandomOwner() string {
+	return randomString(rand.Intn(10))
 }
 
-func RandomSQLNullInt32() sql.NullInt32 {
-	return sql.NullInt32{
-		Int32: rand.Int31(),
-		Valid: true,
-	}
-}
-
-func RandomSQLNullInt64() sql.NullInt64 {
-	return sql.NullInt64{
-		Int64: rand.Int63(),
-		Valid: true,
-	}
-}
-
-func RandomSQLNullTime(time time.Time) sql.NullTime {
-	return sql.NullTime{
-		Time:  time,
-		Valid: true,
-	}
+// generates random currency type
+func RandomCurrency() string {
+	currencies := []string{"USD", "GBP", "INR"}
+	return currencies[rand.Intn(len(currencies))]
 }
