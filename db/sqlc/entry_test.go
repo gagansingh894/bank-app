@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 	"math/rand"
 	"simple-bank/util"
 	"testing"
@@ -22,11 +21,11 @@ func TestCreateEntry(t *testing.T) {
 	require.NoError(t, err)
 	require.NotEmpty(t, entry)
 
-	require.Equal(t, entryArg.AccountID.Int64, entry.AccountID.Int64)
-	require.Equal(t, entryArg.Amount.Int64, entry.Amount.Int64)
+	require.Equal(t, entryArg.AccountID, entry.AccountID)
+	require.Equal(t, entryArg.Amount, entry.Amount)
 
-	require.NotZero(t, entry.AccountID.Int64)
-	require.NotZero(t, entry.AccountID.Int64)
+	require.NotZero(t, entry.AccountID)
+	require.NotZero(t, entry.AccountID)
 }
 
 func TestGetEntry(t *testing.T) {
@@ -45,9 +44,9 @@ func TestGetEntry(t *testing.T) {
 		require.NoError(t, err)
 		require.NotEmpty(t, retrievedEntry)
 
-		require.Equal(t, createdEntry.AccountID.Int64, retrievedEntry.AccountID.Int64)
-		require.Equal(t, createdEntry.Amount.Int64, retrievedEntry.Amount.Int64)
-		require.WithinDuration(t, createdEntry.CreatedAt.Time, retrievedEntry.CreatedAt.Time, time.Second)
+		require.Equal(t, createdEntry.AccountID, retrievedEntry.AccountID)
+		require.Equal(t, createdEntry.Amount, retrievedEntry.Amount)
+		require.WithinDuration(t, createdEntry.CreatedAt, retrievedEntry.CreatedAt, time.Second)
 	}
 }
 
@@ -78,10 +77,7 @@ func TestListEntries(t *testing.T) {
 
 func generateCreateEntryParams(accountID int64) CreateEntryParams {
 	return CreateEntryParams{
-		AccountID: sql.NullInt64{
-			Int64: accountID,
-			Valid: true,
-		},
-		Amount: util.RandomSQLNullInt64(),
+		AccountID: accountID,
+		Amount:    util.RandomInt(0, 100),
 	}
 }

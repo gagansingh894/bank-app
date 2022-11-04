@@ -19,9 +19,9 @@ func TestCreateAccount(t *testing.T) {
 	require.NoError(t, err)
 	require.NotEmpty(t, account)
 
-	require.Equal(t, arg.Owner.String, account.Owner.String)
-	require.Equal(t, arg.Balance.Int64, account.Balance.Int64)
-	require.Equal(t, arg.Currency.String, account.Currency.String)
+	require.Equal(t, arg.Owner, account.Owner)
+	require.Equal(t, arg.Balance, account.Balance)
+	require.Equal(t, arg.Currency, account.Currency)
 
 	require.NotZero(t, account.ID)
 	require.NotZero(t, account.CreatedAt)
@@ -39,7 +39,7 @@ func TestGetAccount(t *testing.T) {
 		require.Equal(t, createdAccount.Owner, retrievedAccount.Owner)
 		require.Equal(t, createdAccount.Balance, retrievedAccount.Balance)
 		require.Equal(t, createdAccount.Currency, retrievedAccount.Currency)
-		require.WithinDuration(t, createdAccount.CreatedAt.Time, retrievedAccount.CreatedAt.Time, time.Second)
+		require.WithinDuration(t, createdAccount.CreatedAt, retrievedAccount.CreatedAt, time.Second)
 
 	}
 }
@@ -50,7 +50,7 @@ func TestUpdateAccount(t *testing.T) {
 
 	arg := UpdateAccountParams{
 		ID:      createdAccount.ID,
-		Balance: util.RandomSQLNullInt64(),
+		Balance: util.RandomInt(0, 100),
 	}
 
 	updatedAccount, err := testQueries.UpdateAccount(context.Background(), arg)
@@ -61,7 +61,7 @@ func TestUpdateAccount(t *testing.T) {
 	require.Equal(t, createdAccount.Owner, updatedAccount.Owner)
 	require.Equal(t, arg.Balance, updatedAccount.Balance)
 	require.Equal(t, createdAccount.Currency, updatedAccount.Currency)
-	require.WithinDuration(t, createdAccount.CreatedAt.Time, updatedAccount.CreatedAt.Time, time.Second)
+	require.WithinDuration(t, createdAccount.CreatedAt, updatedAccount.CreatedAt, time.Second)
 
 }
 
@@ -101,8 +101,8 @@ func TestListAccounts(t *testing.T) {
 
 func generateCreateAccountParams() CreateAccountParams {
 	return CreateAccountParams{
-		Owner:    util.RandomSQLNullString(),
-		Balance:  util.RandomSQLNullInt64(),
-		Currency: util.RandomSQLNullString(),
+		Owner:    util.RandomOwner(),
+		Balance:  util.RandomInt(0, 10000),
+		Currency: util.RandomCurrency(),
 	}
 }
